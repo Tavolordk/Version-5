@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Flyer Builder — 1 archivo + Currículum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #2E6CFF;
+            --accent2: #FF5EA8;
+            --card: #ffffff;
+            --ink: #0b0f2e;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+            background: #0f1429;
+            color: #e8eefc
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 18px;
+            height: 100%;
+            padding: 18px
+        }
+
+        /* Panel */
+        .panel {
+            background: #0b1024;
+            border: 1px solid #1f2750;
+            border-radius: 16px;
+            padding: 16px;
+            overflow: auto;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .35)
+        }
+
+        .panel h2 {
+            font-size: 18px;
+            margin: 6px 0 14px;
+            color: #b3c7ff
+        }
+
+        .panel label {
+            display: block;
+            font-size: 12px;
+            opacity: .85;
+            margin-bottom: 6px
+        }
+
+        .panel input[type="text"],
+        .panel textarea,
+        .panel select,
+        .panel input[type="date"],
+        .panel input[type="time"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #2a3366;
+            border-radius: 10px;
+            background: #0f1737;
+            color: #e8eefc;
+            outline: none;
+            margin-bottom: 12px
+        }
+
+        .panel textarea {
+            min-height: 72px;
+            resize: vertical
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: #1f2750;
+            margin: 12px 0
+        }
+
+        button {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        button.alt {
+            background: #1b2347
+        }
+
+        small.mono {
+            font-family: ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
+            color: #9ab1ff
+        }
+
+        /* Escenario */
+        .stage {
+            display: grid;
+            place-items: center
+        }
+
+        .poster-wrap {
+            width: min(780px, 90%);
+            aspect-ratio: 9/16;
+            display: grid;
+            place-items: center
+        }
+
+        .poster {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .06);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .poster::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .08);
+            pointer-events: none
+        }
+
+        /* Fondos por clase (puedes seguir usando tu imagen propia) */
+        .bg-wau {
+            background:
+                radial-gradient(120px 120px at 18% 12%, rgba(255, 255, 255, .45), transparent 70%),
+                radial-gradient(120px 120px at 45% 10%, rgba(255, 255, 255, .35), transparent 70%),
+                radial-gradient(140px 140px at 72% 16%, rgba(255, 255, 255, .30), transparent 70%),
+                linear-gradient(#EAF1FF, #ffffff);
+        }
+
+        .bg-space {
+            background:
+                radial-gradient(60% 70% at 18% 28%, rgba(90, 46, 166, .35), transparent 60%),
+                radial-gradient(60% 70% at 82% 70%, rgba(123, 212, 255, .28), transparent 60%),
+                radial-gradient(circle at 30% -10%, rgba(255, 255, 255, .08), transparent 45%),
+                linear-gradient(#0a1530, #102a50);
+        }
+
+        /* Contenido flyer */
+        .safe {
+            position: absolute;
+            inset: 28px;
+            display: grid;
+            grid-template-rows: auto max-content max-content;
+            grid-auto-rows: max-content;
+            gap: 16px;
+
+            /* NUEVO: alinear el conjunto de filas al inicio (arriba) */
+            align-content: start;
+            /* eje vertical */
+            justify-content: start;
+            /* por si acaso en horizontal */
+        }
+
+        .top {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .logo {
+            height: 44px;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, .35))
+        }
+
+        .tag {
+            background: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            font-size: 32px
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .18)
+        }
+
+        .head {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start
+        }
+
+        .photo {
+            width: 128px;
+            height: 128px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, .4);
+            border: 3px solid rgba(255, 255, 255, .6)
+        }
+
+        .title {
+            font-size: 38px;
+            line-height: 1.05;
+            margin: 0;
+            color: var(--ink)
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #3b4568;
+            margin: .2rem 0 0
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px
+        }
+
+        .kv {
+            background: #f1f4ff;
+            border: 1px solid #dfe6ff;
+            border-radius: 14px;
+            padding: 10px 12px;
+            color: #1d2651
+        }
+
+        .kv b {
+            display: block;
+            font-size: 11px;
+            opacity: .7
+        }
+
+        .kv span {
+            font-weight: 700
+        }
+
+        .bio {
+            font-size: 14px;
+            color: #2a355f
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px
+        }
+
+        .pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .pill {
+            background: #0c1638;
+            color: #bcd1ff;
+            border: 1px solid #1e2a61;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px
+        }
+
+        .right-icons {
+            display: flex;
+            gap: 10px
+        }
+
+        .live {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            background: #fff;
+            border-radius: 12px;
+            padding: 6px 10px;
+            border: 1px solid #eaeefc
+        }
+
+        .live svg {
+            height: 16px;
+            width: 16px
+        }
+
+        /* Currículum */
+        .cv-title {
+            font-size: 20px;
+            color: #1a2453;
+            margin: 6px 0 10px;
+            font-weight: 800
+        }
+
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px
+        }
+
+        .cv-col {
+            background: #f7f9ff;
+            border: 1px solid #e2e8ff;
+            border-radius: 14px;
+            padding: 12px
+        }
+
+        .cv-col h4 {
+            margin: 0 0 8px;
+            font-size: 13px;
+            letter-spacing: .02em;
+            color: #253067;
+            text-transform: uppercase
+        }
+
+        .cv-list {
+            margin: 0;
+            padding-left: 18px;
+            color: #26305f
+        }
+
+        .cv-list li {
+            margin: 4px 0
+        }
+
+        .cv-summary {
+            background: #fff;
+            border: 1px solid #e8ecff;
+            border-radius: 14px;
+            padding: 12px;
+            color: #26305f
+        }
+
+        .cv-links a {
+            color: #2E6CFF;
+            text-decoration: none
+        }
+
+        .cv-links a:hover {
+            text-decoration: underline
+        }
+
+        /* Responsive del bloque CV dentro del póster */
+        @media (min-width:520px) {
+            .cv-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        /* Util */
+        .hidden {
+            display: none !important
+        }
+
+        /* Print */
+        @media print {
+            body {
+                background: #fff
+            }
+
+            .wrapper {
+                display: block;
+                padding: 0
+            }
+
+            .panel {
+                display: none
+            }
+
+            .stage {
+                display: block
+            }
+
+            .poster-wrap {
+                width: 100%;
+                max-width: none
+            }
+        }
+
+        #logoR {
+            height: 80px;
+            width: auto;
+        }
+
+        /* Contenedor de héroe (foto izquierda + card principal) */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* 1 columna si no hay foto */
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .hero.two-cols {
+
+            grid-template-columns: 300px 1fr;
+            /* 2 columnas cuando hay foto */
+        }
+
+        @media (min-width: 680px) {
+            .hero.two-cols {
+                grid-template-columns: 330px 1fr;
+            }
+        }
+
+        /* Tarjeta de foto izquierda */
+        .hero-photo.card {
+            padding: 0;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 1fr auto;
+        }
+
+        .hero-photo figure {
+            margin: 0
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+
+        .photo-caption {
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #2a355f;
+            background: #fff;
+            border-top: 1px solid #e8ecff
+        }
+
+        /* 1) Quitar alto fijo por relación de aspecto */
+        .poster-wrap {
+            width: min(780px, 90%);
+            /* elimina: aspect-ratio: 9/16; */
+        }
+
+        /* 2) Dejar que el flyer crezca según el contenido */
+        .poster {
+            width: 100%;
+            height: auto;
+            /* antes: height: 100% */
+            min-height: 560px;
+            /* opcional: altura mínima estética */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+            /* ancla arriba; usa 'center' si prefieres */
+        }
+
+        /* 3) Hacer que el contenido cuente para la altura del .poster */
+        .safe {
+            position: relative;
+            /* antes: absolute */
+            inset: auto;
+            /* anula el inset */
+            padding: 28px;
+            /* reproduce el margen interno que tenías */
+            display: grid;
+            grid-template-rows: auto max-content max-content;
+            grid-auto-rows: max-content;
+            gap: 16px;
+            align-content: start;
+            justify-content: start;
+        }
+
+        /* (opcional) En impresión, que siga ocupando todo el ancho */
+        @media print {
+            .poster-wrap {
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <aside class="panel" style="width: 200%;">
+            <h2>Datos del flyer</h2>
+            <div class="row">
+                <div>
+                    <label>Título</label>
+                    <input id="inTitle" type="text" value="EDUCACIÓN INNOVADORA PARA UN FUTURO SOCIOAMBIENTAL">
+                </div>
+                <div style="z-index: 100;">
+                    <label>Etiqueta</label>
+                    <select id="inTag">
+                        <option>CONFERENCIA</option>
+                        <option>TALLER</option>
+                        <option>MASTER CLASS</option>
+                        <option>CHARLA</option>
+                        <option>WEBINAR</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Subtítulo (opcional)</label>
+            <input id="inSubtitle" type="text" placeholder="Una línea de valor (opcional)">
+
+            <div class="row">
+                <div>
+                    <label>Ponente</label>
+                    <input id="inSpeaker" type="text" value="Danna Ximena Sánchez">
+                </div>
+                <div style="z-index: 100;">
+                    <label>Rol/etiqueta del ponente</label>
+                    <input style="z-index: 100;" id="inRole" type="text" value="Creadora de contenido — Daxico Planet">
+                </div>
+            </div>
+
+            <label>Bio breve (2–3 líneas)</label>
+            <textarea
+                id="inBio">Divulgadora científica y creadora de Daxico Planet. Acerca la ciencia espacial a niñas, niños y juventudes.</textarea>
+
+            <div class="grid" style="z-index: 100;">
+                <div class="kv" style="z-index: 100;"><b>Fecha</b><input id="inDate" type="date"></div>
+                <div class="kv" style="z-index: 100;"><b>Hora</b><input id="inTime" type="time" value="17:00"></div>
+                <div class="kv" style="z-index: 100;"><b>Zona horaria</b><input id="inTz" type="text" value="Hora CDMX">
+                </div>
+                <div class="kv" style="z-index: 100;"><b>Modalidad</b>
+                    <select id="inMode">
+                        <option>Presencial</option>
+                        <option>Online</option>
+                        <option>Híbrido</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Sede o enlace</label>
+            <input id="inVenue" type="text" placeholder="Auditorio / Zoom / YouTube / Dirección">
+
+            <hr>
+            <div class="row">
+                <div><label>Color acento</label><input id="inAccent" type="color" value="#2E6CFF"></div>
+                <div><label>Color acento 2</label><input id="inAccent2" type="color" value="#FF5EA8"></div>
+            </div>
+
+            <label>Fondo</label>
+            <select id="inBg">
+                <option value="wau">Estilo WAU (claro)</option>
+                <option value="space">Espacial (azul marino)</option>
+                <option value="__custom">Subir imagen…</option>
+            </select>
+            <input id="inBgFile" class="hidden" type="file" accept="image/*">
+
+            <div class="row">
+                <div><label>Logo izquierdo</label><input id="inLogoL" type="file" accept="image/*"></div>
+                <div style="z-index: 100;"><label>Logo derecho</label><input style="z-index: 100;" id="inLogoR"
+                        type="file" accept="image/*"></div>
+            </div>
+
+            <div class="row" style="z-index:100">
+                <div><label>Foto del ponente (opcional)</label><input id="inPhoto" type="file" accept="image/*"></div>
+                <div style="display:flex;align-items:flex-end"><button style="z-index:100" id="btnTogglePhoto"
+                        class="alt" type="button">Mostrar/ocultar foto</button></div>
+            </div>
+            <hr>
+            <h2>Foto izquierda (opcional)</h2>
+            <label><input id="inShowPhotoSection" type="checkbox"> Mostrar foto a la izquierda</label>
+            <label>Imagen</label>
+            <input id="inPhotoSection" type="file" accept="image/*">
+            <label>Pie de foto (opcional)</label>
+            <input id="inPhotoCaption" type="text" placeholder="Texto breve">
+
+            <!-- ========= NUEVO: Panel de Currículum ========= -->
+            <hr>
+            <h2>Currículum</h2>
+            <label><input id="inShowCV" type="checkbox" checked> Mostrar bloque de currículum debajo del flyer</label>
+
+            <label>Resumen (2–4 líneas)</label>
+            <textarea id="inCvSummary" placeholder="Síntesis del perfil"></textarea>
+
+            <div class="row">
+                <div>
+                    <label>Educación (1 ítem por línea)</label>
+                    <textarea id="inCvEducation" placeholder="Ej.: Lic. en ..., Univ. ...&#10;Diplomado ..."></textarea>
+                </div>
+                <div>
+                    <label>Experiencia / Participaciones (1 ítem por línea)</label>
+                    <textarea id="inCvExperience"
+                        placeholder="Ej.: FIRST Robotics en USA&#10;Hackatón NASA Space Apps ..."></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Premios / Reconocimientos (1 ítem por línea)</label>
+                    <textarea id="inCvAwards" placeholder="Ej.: Medalla ..., 2024"></textarea>
+                </div>
+                <div>
+                    <label>Proyectos / Enlaces (1 por línea)</label>
+                    <textarea id="inCvProjects" placeholder="Ej.: Daxico Planet (URL opcional)"></textarea>
+                </div>
+            </div>
+
+            <label>Links (1 URL por línea)</label>
+            <textarea id="inCvLinks" placeholder="https://instagram.com/...&#10;https://youtube.com/..."></textarea>
+            <!-- ========== FIN CV ========== -->
+
+            <hr>
+            <div class="row">
+                <button style="z-index: 100;" id="btnReset" type="button" class="alt">Restaurar demo</button>
+                <button style="z-index: 100;" id="btnPrint" type="button">Imprimir / PDF</button>
+            </div>
+            <div class="row" style="margin-top:8px;z-index: 100;">
+                <button id="btnPNG" type="button" style="z-index: 100;">Descargar PNG HD</button>
+                <button id="btnJPG" type="button" class="alt">Descargar JPG HD</button>
+            </div>
+            <p><small class="mono">Tip: usa <b>Imprimir → Guardar como PDF</b> para exportar.</small></p>
+        </aside>
+
+        <main class="stage">
+            <div class="poster-wrap">
+                <!-- Puedes dejar tu imagen de fondo: -->
+                <section class="poster bg-wau" id="poster">
+                    <div class="safe">
+                        <div class="top">
+                            <img id="logoL" class="logo" alt="Logo izquierdo" src="">
+                            <h1 id="tag" class="tag">CONFERENCIA</h1>
+                            <img id="logoR" class="logo" alt="Logo derecho" src="">
+                        </div>
+
+                        <!-- NUEVO: contenedor de héroe (foto izquierda + card principal) -->
+                        <div id="hero" class="hero">
+                            <!-- Foto grande opcional a la izquierda -->
+                            <aside id="heroPhotoCard" class="card hero-photo hidden">
+                                <figure>
+                                    <img id="heroPhotoImg" alt="Foto del ponente">
+                                </figure>
+                                <div id="heroPhotoCaption" class="photo-caption hidden"></div>
+                            </aside>
+
+                            <!-- Card principal (igual que la tuya) -->
+                            <div class="card">
+                                <div class="head">
+                                    <!-- La mini foto original dentro de la card se oculta automáticamente cuando hay foto izquierda -->
+                                    <div id="photoWrap" class="photo hidden"><img id="photo" alt=""
+                                            style="width:100%;height:100%;object-fit:cover"></div>
+                                    <div>
+                                        <h1 class="title" id="title">EDUCACIÓN INNOVADORA PARA UN FUTURO SOCIOAMBIENTAL
+                                        </h1>
+                                        <p class="subtitle" id="subtitle"></p>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="kv"><b>PONENTE</b><span id="speaker">Danna Ximena Sánchez</span></div>
+                                    <div class="kv"><b>ROL</b><span id="role">Creadora de contenido — Daxico
+                                            Planet</span></div>
+                                    <div class="kv"><b>FECHA</b><span id="dateOut">Fecha por confirmar</span></div>
+                                    <div class="kv"><b>HORA</b><span id="timeOut">Hora por confirmar</span></div>
+                                </div>
+
+                                <p class="bio" id="bio">Divulgadora científica y creadora de Daxico Planet. Acerca la
+                                    ciencia espacial a niñas, niños y juventudes.</p>
+
+                                <div class="footer">
+                                    <div class="pills">
+                                        <span class="pill" id="modeOut">Presencial</span>
+                                        <span class="pill" id="venueOut">Sede por confirmar</span>
+                                    </div>
+                                    <div class="right-icons">
+                                        <!-- Facebook Live -->
+                                        <div class="live" title="Facebook Live">
+                                            <svg viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true">
+                                                <path
+                                                    d="M22 12a10 10 0 1 0-11.6 9.9v-7h-2.5v-3h2.5V9.5c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.3.2 2.3.2v2.6h-1.3c-1.3 0-1.8.8-1.8 1.7V12h3l-.5 3h-2.5v7A10 10 0 0 0 22 12z" />
+                                            </svg>
+                                            <span style="font-weight:700;color:#0b1530">Live</span>
+                                        </div>
+                                        <!-- Google Meet -->
+                                        <a class="live" id="meetLink" href="#" target="_blank" rel="noopener"
+                                            title="Google Meet" style="display:none">
+                                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                                <path fill="#34A853"
+                                                    d="M3 7.5A2.5 2.5 0 0 1 5.5 5h7A2.5 2.5 0 0 1 15 7.5v9A2.5 2.5 0 0 1 12.5 19h-7A2.5 2.5 0 0 1 3 16.5v-9z" />
+                                                <path fill="#FBBC04"
+                                                    d="M16 9.2c0-.6.7-.9 1.1-.5l3.3 2.8c.2.2.3.4.3.6v3.8c0 .6-.7.9-1.1.5L16.3 14a.8.8 0 0 1-.3-.6V9.2z" />
+                                            </svg>
+                                            <span style="font-weight:700;color:#0b1530">Meet</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- después de este bloque sigue tu #cvCard como lo tienes -->
+
+
+                        <!-- ========= NUEVO: Bloque de Currículum en el póster ========= -->
+                        <div id="cvCard" class="card">
+                            <h3 class="cv-title">Currículum — <span id="cvName">Danna Ximena Sánchez</span></h3>
+
+                            <div id="cvSummary" class="cv-summary hidden"></div>
+
+                            <div class="cv-grid">
+                                <div class="cv-col">
+                                    <h4>Educación</h4>
+                                    <ul id="cvEducation" class="cv-list"></ul>
+
+                                    <h4>Premios / Reconocimientos</h4>
+                                    <ul id="cvAwards" class="cv-list"></ul>
+                                </div>
+
+                                <div class="cv-col">
+                                    <h4>Experiencia / Participaciones</h4>
+                                    <ul id="cvExperience" class="cv-list"></ul>
+
+                                    <h4>Proyectos</h4>
+                                    <ul id="cvProjects" class="cv-list"></ul>
+
+                                    <h4>Links</h4>
+                                    <ul id="cvLinks" class="cv-list cv-links"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ========== FIN CV ========== -->
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+    <script>
+        const $ = s => document.querySelector(s);
+        const poster = $("#poster");
+        function setVar(name, value) { document.documentElement.style.setProperty(name, value); }
+
+        // ===== helper para escuchar varios eventos =====
+        const on = (sel, evts, fn) => {
+            const el = document.querySelector(sel);
+            if (!el) return;
+            evts.split(' ').forEach(e => el.addEventListener(e, fn));
+        };
+
+        // ===== Enlaces de inputs -> preview (robustos: input + change) =====
+        on("#inTitle", "input change", e => $("#title").textContent = e.target.value);
+        on("#inSubtitle", "input change", e => $("#subtitle").textContent = e.target.value);
+        on("#inSpeaker", "input change", e => { $("#speaker").textContent = e.target.value; $("#cvName").textContent = e.target.value; });
+        on("#inRole", "input change", e => $("#role").textContent = e.target.value);
+        on("#inTag", "input change", e => $("#tag").textContent = (e.target.value || "").toUpperCase());
+        on("#inMode", "input change", e => $("#modeOut").textContent = e.target.value);
+        on("#inVenue", "input change", e => $("#venueOut").textContent = e.target.value || "Sede por confirmar");
+        on("#inBio", "input change", e => $("#bio").textContent = e.target.value);
+        on("#inAccent", "input change", e => setVar("--accent", e.target.value));
+        on("#inAccent2", "input change", e => setVar("--accent2", e.target.value));
+
+        // ===== Fecha / Hora =====
+        function fmtDate(iso) {
+            if (!iso) return "Fecha por confirmar";
+            const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+            const weekdays = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+            const ucFirst = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+            const d = new Date(iso + "T00:00:00");
+            return `${ucFirst(weekdays[d.getDay()])} ${d.getDate()} de ${ucFirst(months[d.getMonth()])}`;
+        }
+        function fmtTime(t, tz) {
+            if (!t) return "Hora por confirmar";
+            let [hh, mm] = t.split(":");
+            let h = parseInt(hh, 10);
+            const ampm = h >= 12 ? "PM" : "AM";
+            h = h % 12; if (h === 0) h = 12;
+            return `${String(h).padStart(2, "0")}:${mm} ${ampm}${tz ? " (" + tz + ")" : ""}`;
+        }
+        function updateTime() { $("#timeOut").textContent = fmtTime($("#inTime").value, $("#inTz").value); }
+        on("#inDate", "input change", e => $("#dateOut").textContent = fmtDate(e.target.value));
+        on("#inTime", "input change", updateTime);
+        on("#inTz", "input change", updateTime);
+
+        // ===== Fondo =====
+        on("#inBg", "change", e => {
+            poster.classList.remove("bg-wau", "bg-space");
+            $("#inBgFile").classList.add("hidden");
+            poster.style.backgroundImage = "";
+            if (e.target.value === "wau") { poster.classList.add("bg-wau"); }
+            else if (e.target.value === "space") { poster.classList.add("bg-space"); }
+            else { $("#inBgFile").classList.remove("hidden"); }
+        });
+        on("#inBgFile", "change", e => {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => { poster.style.backgroundImage = `url('${ev.target.result}')`; };
+            reader.readAsDataURL(file);
+        });
+
+        // ===== Carga de imágenes (logos/foto chica) =====
+        function bindImage(inputSel, imgSel) {
+            const input = $(inputSel); const img = $(imgSel);
+            if (!input || !img) return;
+            input.addEventListener("change", e => {
+                const file = e.target.files[0]; if (!file) return;
+                const reader = new FileReader();
+                reader.onload = ev => { img.src = ev.target.result; };
+                reader.readAsDataURL(file);
+            });
+        }
+        bindImage("#inLogoL", "#logoL");
+        bindImage("#inLogoR", "#logoR");
+        bindImage("#inPhoto", "#photo");
+
+        // Mostrar/ocultar mini foto dentro de la card
+        on("#btnTogglePhoto", "click", () => $("#photoWrap").classList.toggle("hidden"));
+
+        // ===== CV: render dinámico =====
+        const cvSummaryEl = $("#cvSummary");
+        const cvEduEl = $("#cvEducation");
+        const cvExpEl = $("#cvExperience");
+        const cvAwardsEl = $("#cvAwards");
+        const cvProjectsEl = $("#cvProjects");
+        const cvLinksEl = $("#cvLinks");
+        const cvCard = $("#cvCard");
+
+        function renderList(text, ulEl) {
+            ulEl.innerHTML = "";
+            const lines = (text || "").split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+            lines.forEach(item => {
+                const li = document.createElement("li");
+                if (/^https?:\/\//i.test(item)) {
+                    const a = document.createElement("a"); a.href = item; a.textContent = item; a.target = "_blank"; li.appendChild(a);
+                } else {
+                    li.textContent = item;
+                }
+                ulEl.appendChild(li);
+            });
+            ulEl.parentElement.classList.toggle("hidden", lines.length === 0);
+        }
+        function renderCV() {
+            const show = $("#inShowCV").checked;
+            cvCard.classList.toggle("hidden", !show);
+
+            const summary = $("#inCvSummary").value.trim();
+            cvSummaryEl.textContent = summary;
+            cvSummaryEl.classList.toggle("hidden", summary.length === 0);
+
+            renderList($("#inCvEducation").value, cvEduEl);
+            renderList($("#inCvExperience").value, cvExpEl);
+            renderList($("#inCvAwards").value, cvAwardsEl);
+            renderList($("#inCvProjects").value, cvProjectsEl);
+            renderList($("#inCvLinks").value, cvLinksEl);
+        }
+        ["inShowCV", "inCvSummary", "inCvEducation", "inCvExperience", "inCvAwards", "inCvProjects", "inCvLinks"]
+            .forEach(id => on("#" + id, "input change", renderCV));
+
+        // ===== Reset / Print =====
+        on("#btnReset", "click", () => location.reload());
+        on("#btnPrint", "click", () => window.print());
+
+        // ===== Estado inicial =====
+        (function init() {
+            poster.classList.add("bg-wau");
+            // sincroniza preview con valores actuales del panel
+            $("#title").textContent = $("#inTitle").value;
+            $("#subtitle").textContent = $("#inSubtitle").value;
+            $("#speaker").textContent = $("#inSpeaker").value;
+            $("#cvName").textContent = $("#inSpeaker").value;
+            $("#role").textContent = $("#inRole").value;
+            $("#tag").textContent = ($("#inTag").value || "").toUpperCase();
+            $("#dateOut").textContent = fmtDate($("#inDate").value);
+            updateTime();
+            $("#modeOut").textContent = $("#inMode").value;
+            $("#venueOut").textContent = $("#inVenue").value || "Sede por confirmar";
+            $("#bio").textContent = $("#inBio").value;
+            renderCV();
+        })();
+
+        // ===== Foto izquierda del héroe (opcional) =====
+        const hero = document.querySelector("#hero");
+        const heroCard = document.querySelector("#heroPhotoCard");
+        const heroImg = document.querySelector("#heroPhotoImg");
+        const heroCap = document.querySelector("#heroPhotoCaption");
+        const miniWrap = document.querySelector("#photoWrap");
+        const inShowPhotoSection = document.querySelector("#inShowPhotoSection");
+        const inPhotoSection = document.querySelector("#inPhotoSection");
+        const inPhotoCaption = document.querySelector("#inPhotoCaption");
+
+        function updateHeroLayout() {
+            const show = inShowPhotoSection ? inShowPhotoSection.checked : false;
+            const hasSrc = !!(heroImg && heroImg.getAttribute("src"));
+            const visible = show && hasSrc;
+            if (heroCard) heroCard.classList.toggle("hidden", !visible);
+            if (hero) hero.classList.toggle("two-cols", visible);
+            if (miniWrap) miniWrap.classList.add("hidden"); // siempre oculta mini-foto cuando usamos layout nuevo
+        }
+        if (inShowPhotoSection) inShowPhotoSection.addEventListener("change", updateHeroLayout);
+        if (inPhotoSection) {
+            inPhotoSection.addEventListener("change", (e) => {
+                const file = e.target.files[0]; if (!file) return;
+                const reader = new FileReader();
+                reader.onload = ev => { if (heroImg) { heroImg.src = ev.target.result; updateHeroLayout(); } };
+                reader.readAsDataURL(file);
+            });
+        }
+        if (inPhotoCaption) {
+            inPhotoCaption.addEventListener("input", (e) => {
+                const v = e.target.value.trim();
+                if (heroCap) {
+                    heroCap.textContent = v;
+                    heroCap.classList.toggle("hidden", !v);
+                }
+            });
+        }
+        // inicializa layout de héroe
+        updateHeroLayout();
+        // ---- Exportar el flyer como imagen HD ----
+        // Log de errores de recursos (imagenes, css, etc.)
+        // Solo registra <img> realmente rotas (sin ancho) y que no sean data:URL
+        window.addEventListener('error', (e) => {
+            const t = e.target;
+            if (!(t instanceof HTMLImageElement)) return;
+            if (t.src && t.src.startsWith('data:')) return;   // ignora data URL
+            if (t.complete && t.naturalWidth === 0) {
+                console.warn('IMG rota:', t.currentSrc || t.src);
+            }
+        }, true);
+
+        // Utilidad para verificar manualmente
+        function listarImgsRota(root = document) {
+            const bad = [];
+            root.querySelectorAll('img').forEach(img => {
+                if (img.complete && img.naturalWidth === 0) bad.push(img.currentSrc || img.src);
+            });
+            return bad;
+        }
+
+
+        function fileSafeName(s) {
+            return (s || 'flyer').toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        }
+        function dl(url, name) { const a = document.createElement('a'); a.href = url; a.download = name; a.click(); }
+
+        // PNG transparente de 1x1 como “parche” si alguna imagen falla
+        const TRANSPARENT_PX = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/erqYmcAAAAASUVORK5CYII=';
+
+        async function exportNodeToPNG(scale = 4) {
+            const node = document.querySelector('.poster');
+            const title = document.querySelector('#title')?.textContent || 'flyer';
+            await document.fonts.ready;
+
+            // Aviso rápido si hay <img> rotas
+            const rotas = listarImgsRota();
+            if (rotas.length) console.warn('Imágenes rotas:', rotas);
+
+            try {
+                const url = await htmlToImage.toPng(node, {
+                    pixelRatio: scale,
+                    cacheBust: true,
+                    skipFonts: true,
+                    imagePlaceholder: TRANSPARENT_PX  // <- evita rechazos por una imagen que falló
+                });
+                dl(url, fileSafeName(title) + '-hd.png');
+            } catch (err) {
+                console.error('PNG error:', err);
+                // Fallback: baja escala si fue por memoria
+                if (scale > 2) return exportNodeToPNG(2);
+                alert('No se pudo exportar PNG. Revisa si todas las imágenes cargan o prueba con un fondo por CSS.');
+            }
+        }
+
+        async function exportNodeToJPG(scale = 4) {
+            const node = document.querySelector('.poster');
+            const title = document.querySelector('#title')?.textContent || 'flyer';
+            await document.fonts.ready;
+
+            try {
+                const url = await htmlToImage.toJpeg(node, {
+                    pixelRatio: scale,
+                    cacheBust: true,
+                    skipFonts: true,
+                    quality: 0.95,
+                    backgroundColor: '#0f1429',
+                    imagePlaceholder: TRANSPARENT_PX
+                });
+                dl(url, fileSafeName(title) + '-hd.jpg');
+            } catch (err) {
+                console.error('JPG error:', err);
+                if (scale > 2) return exportNodeToJPG(2);
+                alert('No se pudo exportar JPG. Revisa si todas las imágenes cargan o prueba con un fondo por CSS.');
+            }
+        }
+        // Helper de descarga más robusto (opcional: sustituye tu dl)
+        function dl(url, name) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        // Conectar botones a las funciones de exportación
+        const btnPNG = document.querySelector('#btnPNG');
+        const btnJPG = document.querySelector('#btnJPG');
+
+        btnPNG?.addEventListener('click', () => exportNodeToPNG(4)); // 4x resolución
+        btnJPG?.addEventListener('click', () => exportNodeToJPG(4));
+        // ---- UTILIDADES DE DESCARGA ----
+        function saveBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 500);
+        }
+
+        function dataUrlToBlob(dataUrl) {
+            const [hdr, b64] = dataUrl.split(',');
+            const mime = (hdr.match(/data:(.*?);/) || [, 'image/png'])[1];
+            const bin = atob(b64);
+            const u8 = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+            return new Blob([u8], { type: mime });
+        }
+
+        // ---- EXPORTAR PNG/JPG (con fallback y placeholder) ----
+        TRANSPARENT_PX =
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/erqYmcAAAAASUVORK5CYII=';
+
+        async function exportPoster(type = 'png', scale = 4) {
+            const node = document.querySelector('.poster');
+            const title = (document.querySelector('#title')?.textContent || 'flyer')
+                .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+            await document.fonts.ready;
+
+            const opts = {
+                pixelRatio: scale,
+                cacheBust: true,
+                skipFonts: true,
+                imagePlaceholder: TRANSPARENT_PX,
+                backgroundColor: type === 'jpeg' ? '#0f1429' : null
+            };
+
+            try {
+                const dataUrl = type === 'jpeg'
+                    ? await htmlToImage.toJpeg(node, { ...opts, quality: 0.95 })
+                    : await htmlToImage.toPng(node, opts);
+
+                saveBlob(dataUrlToBlob(dataUrl), `${title}-hd.${type === 'jpeg' ? 'jpg' : 'png'}`);
+            } catch (err) {
+                console.error('Export error:', err);
+                if (scale > 2) return exportPoster(type, 2);   // intenta con menos escala si es memoria
+                alert('No se pudo exportar. Asegúrate de que todas las imágenes carguen (mejor locales o con file input).');
+            }
+        }
+
+        // ---- CONECTAR BOTONES (¡esto faltaba!) ----
+        document.querySelector('#btnPNG')?.addEventListener('click', () => exportPoster('png', 4));
+        document.querySelector('#btnJPG')?.addEventListener('click', () => exportPoster('jpeg', 4));
+
+    </script>
+
+</body>
+
+</html>
