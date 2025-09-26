@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Programa general — NASA Space Apps Guerrero 2025 (Editable + PDF altura auto)</title>
+  <style>
+    :root{
+      --bg-image: url('./daxico_style_wallpaper_A4_portrait.png');
+      --ink: #ffffff;
+      --panel: rgba(7, 10, 28, 0.70);
+      --panel-strong: rgba(7, 10, 28, 0.85);
+      --accent: #00D4FF;
+      --gold: #F7B500;
+      --edit-outline: rgba(0, 212, 255, 0.65);
+    }
+    body{ margin:0; background:#070A1C; color:var(--ink);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans';
+      -webkit-font-smoothing:antialiased; }
+    .wrap{ display:grid; place-items:center; height:auto; padding:16px; }
+    /* Ancho A4 (210mm), alto automático para que quepa todo */
+    .poster{
+      width:210mm; height:auto;
+      position:relative; overflow:hidden; border-radius:18px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.12);
+      background: var(--panel);
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .poster .poster-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+      z-index:0; user-select:none; pointer-events:none; filter:saturate(120%); }
+    .poster .poster-content{ position:relative; z-index:1; }
+    header{ background:linear-gradient(180deg, var(--panel-strong), transparent); padding:20px 28px;
+      border-bottom:1px solid rgba(255,255,255,.12); }
+    .eyebrow{ letter-spacing:.12em; text-transform:uppercase; font-size:.82rem; opacity:.85; }
+    h1{ margin:.35rem 0 0 0; font-size:2rem; line-height:1.2; }
+    .sub{ margin-top:.35rem; font-size:1rem; opacity:.9; }
+    section{ padding:18px 28px; } section+section{ border-top:1px dashed rgba(255,255,255,.18); }
+    .day-title{ display:flex; gap:.75rem; align-items:baseline; flex-wrap:wrap; margin:.25rem 0 1rem; }
+    .day-title h2{ margin:0; font-size:1.2rem; }
+    .date-badge{ font-size:.93rem; padding:.28rem .55rem; border-radius:999px; background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18); }
+    .agenda{ width:100%; border-collapse:collapse; }
+    .agenda :is(th,td){ padding:.65rem .7rem; vertical-align:top; border-bottom:1px solid rgba(255,255,255,.10);}
+    .agenda th{ font-weight:700; text-align:left; font-size:.95rem; opacity:.9; }
+    .agenda td{ font-size:.95rem; }
+    .pill{ display:inline-block; font-size:.78rem; line-height:1; padding:.35rem .55rem; border-radius:999px;
+      border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.08);}
+    .details{ font-size:.9rem; opacity:.95; margin-top:.15rem; }
+    .note{ font-size:.88rem; opacity:.85; }
+    .logos{ position:absolute; inset:0; z-index:2; pointer-events:none; }
+    .logo{ position:absolute; top:16px; padding:.35rem; background: rgba(7,10,28,.35);
+      backdrop-filter: blur(4px) saturate(140%); pointer-events:auto; }
+    .logo.left{ left:16px; } .logo.right{ right:16px; }
+    .logo img{ display:block; width:120px; height:auto; }
+    [data-editable="on"] [contenteditable="true"]{ outline:2px dashed var(--edit-outline); outline-offset:2px; border-radius:4px; }
+    .toolbar{ position:fixed; right:16px; top:16px; z-index:9999; display:flex; gap:8px; }
+    .toolbar button{ padding:8px 12px; border-radius:9999px; border:none; color:#fff; font-weight:600; cursor:pointer; }
+    .btn-edit{ background:#0ea5e9; } .btn-row{ background:#111827; border:1px solid rgba(255,255,255,.4); } .btn-pdf{ background:#22c55e; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn-edit" id="btn-toggle-edit">✏️ Editar</button>
+    <button class="btn-row" id="btn-add-row">➕ Fila</button>
+    <button class="btn-pdf" id="btn-export">⬇ PDF (altura auto)</button>
+  </div>
+
+  <div class="wrap">
+    <article class="poster" role="document" aria-label="Programa general">
+      <img class="poster-bg" alt="Fondo" src="" />
+      <div class="poster-content">
+        <div class="logos" aria-label="Logotipos de evento y universidad">
+          <div class="logo left top" style="--logo-size:120px">
+            <img src="./logo izquiedo.png" alt="Space Apps Challenge">
+          </div>
+          <div class="logo right top" style="--logo-size:120px">
+            <img src="./escudo-uagro-03.png" alt="UAGro">
+          </div>
+        </div>
+<br><br><br><br><br><br>
+        <header>
+          <div class="eyebrow">Programa general</div>
+          <h1>NASA Space Apps Challenge — Guerrero 2025</h1>
+          <p class="sub">Sede: Preparatoria No. 23 “Jacobo Nájera Hernández” • Explanada, Auditorio, Sala de Maestros, Centro de Cómputo, Comedor Escolar</p>
+        </header>
+
+        <!-- Sábado 4 de octubre de 2025 -->
+        <section aria-labelledby="day1">
+          <div class="day-title">
+            <h2 id="day1">Sábado</h2>
+            <span class="date-badge">4 de octubre de 2025</span>
+          </div>
+          <table class="agenda" aria-describedby="day1">
+            <thead>
+              <tr>
+                <th>Actividad</th>
+                <th>Horario</th>
+                <th>Ubicación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-col="Actividad">Registro y Montaje de proyectos participantes</td>
+                <td data-col="Horario">08:00 – 09:00</td>
+                <td data-col="Ubicación">Explanada</td>
+              </tr>
+              <tr>
+                <td>Desayuno evaluadores</td>
+                <td>08:00 – 09:00</td>
+                <td>Comedor escolar</td>
+              </tr>
+              <tr>
+                <td>Inauguración</td>
+                <td>09:00 – 10:00</td>
+                <td>Explanada</td>
+              </tr>
+              <tr>
+                <td>Exposición y evaluación de proyectos</td>
+                <td>10:00 – 14:00</td>
+                <td>Explanada</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  “Más allá de la gravedad: Cómo soñar en grande, aunque todo te jale hacia abajo”
+                  <div class="details">
+                    Ponente: Ing. Marian Domínguez Juárez<br>
+                    Perfil: Ingeniera Aeronáutica, Astronauta Análoga, Divulgadora Científica
+                  </div>
+                </td>
+                <td>10:00 – 11:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Taller Presencial</span><br>
+                  “Las matemáticas en la astronomía con Lego”
+                  <div class="details">
+                    Ponente: Mtro. Constantino Valencia Vázquez<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>10:00 – 11:00</td>
+                <td>Sala de Maestros</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  ¿Listos para despegar? Los retos de la tecnología espacial en México
+                  <div class="details">
+                    Ponente: Danna Ximena Sánchez<br>
+                    Perfil: Creadora de contenido — Daxico Planet
+                  </div>
+                </td>
+                <td>11:00 – 12:00</td>
+                <td>Centro de Cómputo</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  ¿Y si tu mente es más grande que la galaxia?
+                  <div class="details">
+                    Ponente: Turo Jackson<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>11:00 – 12:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  “Informática espacial: de la Tierra al espacio”
+                  <div class="details">
+                    Ponente: Mtro. Víctor Manuel Carreño Garavito<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>12:00 – 13:00</td>
+                <td>Centro de Cómputo</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Taller Presencial</span><br>
+                  “Las matemáticas en la astronomía con Lego”
+                  <div class="details">
+                    Ponente: Mtro. Constantino Valencia Vázquez<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>13:00 – 14:00</td>
+                <td>Sala de Maestros</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Presencial</span><br>
+                  “AstroChallenge”
+                  <div class="details">
+                    Ponente: Prof. Mauricio Pérez Robles<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>13:00 – 14:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>Comida evaluadores</td>
+                <td>14:00 – 15:00</td>
+                <td>Comedor escolar</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Domingo 5 de octubre de 2025 -->
+        <section aria-labelledby="day2">
+          <div class="day-title">
+            <h2 id="day2">Domingo</h2>
+            <span class="date-badge">5 de octubre de 2025</span>
+          </div>
+          <table class="agenda" aria-describedby="day2">
+            <thead>
+              <tr>
+                <th>Actividad</th>
+                <th>Horario</th>
+                <th>Ubicación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Desayuno evaluadores</td>
+                <td>09:00 – 10:00</td>
+                <td>Comedor escolar</td>
+              </tr>
+              <tr>
+                <td>Exposición de proyectos al público en general</td>
+                <td>10:00 – 12:00</td>
+                <td>Explanada</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  “Del pensamiento a las estrellas”
+                  <div class="details">
+                    Ponente: Lic. José Daniel Díaz Orozco<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>10:00 – 11:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  “Lean Manufacturing rumbo al espacio”
+                  <div class="details">
+                    Ponente: Mtra. Ángeles Nayeli Cruz Gutiérrez<br>
+                    Perfil: Divulgadora Científica
+                  </div>
+                </td>
+                <td>10:00 – 11:00</td>
+                <td>Centro de Cómputo</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  “Un viaje por el cosmos”
+                  <div class="details">
+                    Ponente: Mtra. Jennifer Patricia Alfaro Gil<br>
+                    Perfil: Divulgadora de las Ciencias y estudiante de Astrofísica
+                  </div>
+                </td>
+                <td>11:00 – 12:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Online</span><br>
+                  “Hecho en Marte: la química para sembrar un futuro marciano”
+                  <div class="details">
+                    Ponente: Ing. Axel Uriel García Ortíz<br>
+                    Perfil: Divulgador de Ciencia
+                  </div>
+                </td>
+                <td>11:00 – 12:00</td>
+                <td>Centro de Cómputo</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Taller Presencial</span><br>
+                  “Las matemáticas en la astronomía con Lego”
+                  <div class="details">
+                    Ponente: Mtro. Constantino Valencia Vázquez<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>11:00 – 12:00</td>
+                <td>Sala de Maestros</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Presencial</span><br>
+                  “Listos para trabajar: lo que la escuela no te contó”
+                  <div class="details">
+                    Ponente: Ing. Octavio Olea Pérez<br>
+                    Perfil: CEO de ATEX‑IT y consultor de software
+                  </div>
+                </td>
+                <td>12:00 – 13:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Presencial</span><br>
+                  “Cómo hackear tu mente: estrategia y habilidad para mejorar”
+                  <div class="details">
+                    Ponente: Mtro. Constantino Valencia Vázquez<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>                <td>12:00 – 13:00</td>
+                <td>Centro de Cómputo</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="pill">Conferencia Presencial</span><br>
+                  “Cómo hackear tu mente: estrategia y habilidad para mejorar”
+                  <div class="details">
+                    Ponente: Mtro. Constantino Valencia Vázquez<br>
+                    Perfil: Divulgador Científico
+                  </div>
+                </td>
+                <td>13:00 – 14:00</td>
+                <td>Auditorio</td>
+              </tr>
+              <tr>
+                <td>Clausura y Premiación</td>
+                <td>14:00 – 15:00</td>
+                <td>Explanada</td>
+              </tr>
+              <tr>
+                <td>Comida evaluadores</td>
+                <td>15:00 – 16:00</td>
+                <td>Comedor escolar</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </div>
+    </article>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script>
+    (function(){
+      const poster = document.querySelector('.poster');
+      const bgImg  = poster.querySelector('img.poster-bg');
+
+      // Fallback SVG codificado por si falla el fondo
+      const FALLBACK = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 297" width="210mm" height="297mm">
+           <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+             <stop offset="0" stop-color="#070A1C" stop-opacity="0.92"/>
+             <stop offset="0.5" stop-color="#070A1C" stop-opacity="0.88"/>
+             <stop offset="1" stop-color="#070A1C" stop-opacity="0.92"/>
+           </linearGradient></defs>
+           <rect width="100%" height="100%" fill="url(#g)"/>
+         </svg>`
+      );
+
+      function resolveBg(){
+        const cssBg = getComputedStyle(document.documentElement).getPropertyValue('--bg-image').trim();
+        const m = cssBg.match(/url\((?:\"|\')?(.*?)(?:\"|\')?\)/i);
+        const src = m ? m[1] : '';
+        const test = new Image();
+        test.crossOrigin = 'anonymous';
+        test.onload  = () => { bgImg.src = src || FALLBACK; };
+        test.onerror = () => { console.warn('Fondo no encontrado:', src); bgImg.src = FALLBACK; };
+        test.src = src || 'about:blank';
+      }
+      resolveBg();
+
+      const editable = [
+        'header .eyebrow','header h1','header .sub',
+        'section .day-title h2','section .date-badge',
+        'section table.agenda th','section table.agenda td',
+        '.note','.details'
+      ];
+      let editOn = true;
+      function setEditable(on){
+        editOn = on;
+        poster.setAttribute('data-editable', on ? 'on':'off');
+        poster.querySelectorAll(editable.join(',')).forEach(n => {
+          if(on){ n.setAttribute('contenteditable','true'); n.setAttribute('spellcheck','false'); }
+          else { n.removeAttribute('contenteditable'); }
+        });
+      }
+      setEditable(true);
+
+      function addRow(){
+        const table = poster.querySelector('table.agenda');
+        if(!table) return alert('No se encontró .agenda');
+        const tbody = table.tBodies[0] || table.appendChild(document.createElement('tbody'));
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td contenteditable="true">Nueva actividad</td><td contenteditable="true">00:00 – 00:00</td><td contenteditable="true">Ubicación</td>';
+        tbody.appendChild(tr);
+      }
+
+      // Exportar a PDF de UNA SOLA PÁGINA con altura automática
+      async function exportTallPDF(){
+        const { jsPDF } = window.jspdf;
+        const prev = editOn; setEditable(false);
+        await new Promise(r => requestAnimationFrame(r));
+
+        const scale = 2;
+        const canvas = await html2canvas(poster, { scale, useCORS: true, backgroundColor: null });
+
+        const pageWmm = 210; // A4 width
+        const pageHmm = Math.max(297, canvas.height * pageWmm / canvas.width); // altura proporcional (mín. A4)
+
+        // Límite de seguridad (evitar viewers que no soporten hojas demasiado largas)
+        const MAX_MM = 5000; // ~5 metros de alto
+        const finalHmm = Math.min(pageHmm, MAX_MM);
+
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [pageWmm, finalHmm] });
+        const img = canvas.toDataURL('image/jpeg', 0.95);
+        pdf.addImage(img, 'JPEG', 0, 0, pageWmm, finalHmm, undefined, 'FAST');
+        pdf.save('Programa_Space_Apps_Guerrero_2025_TALL.pdf');
+        if(prev) setEditable(true);
+      }
+
+      document.getElementById('btn-toggle-edit').addEventListener('click', () => setEditable(!editOn));
+      document.getElementById('btn-add-row').addEventListener('click', addRow);
+      document.getElementById('btn-export').addEventListener('click', exportTallPDF);
+
+      document.querySelectorAll('img').forEach(img => {
+        if(!img.classList.contains('poster-bg')) img.setAttribute('crossorigin','anonymous');
+        img.addEventListener('error', () => { console.warn('Archivo no encontrado:', img.getAttribute('src')); });
+      });
+    })();
+  </script>
+</body>
+</html>
